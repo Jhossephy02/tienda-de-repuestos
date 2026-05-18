@@ -14,6 +14,8 @@ app.use(express.json());
 app.use(express.static('view'));
 // Servir archivos estáticos de los controladores para el frontend
 app.use('/controller', express.static('controller'));
+// Servir imágenes estáticas
+app.use('/image', express.static('image'));
 
 // Redirección de la raíz y /home a la tienda virtual (store.html)
 app.get('/', (req, res) => {
