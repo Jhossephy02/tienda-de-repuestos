@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proveedores - MotoStock Pro 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-slate-900 text-white min-h-screen">
+    <nav class="bg-slate-800 border-b border-slate-700 p-4 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-2">
+                <i class="fas fa-motorcycle text-blue-500 text-2xl"></i>
+                <span class="text-xl font-bold tracking-wider">MOTOSTOCK <span class="text-blue-500">PRO</span></span>
+            </a>
+            <div class="hidden lg:flex space-x-4 text-sm">
+                <a href="index.html" class="hover:text-blue-400 transition">Inicio</a>
+                <a href="inventory.html" class="hover:text-blue-400 transition">Inventario</a>
+                <a href="sales.html" class="hover:text-blue-400 transition">Ventas</a>
+                <a href="purchases.html" class="hover:text-blue-400 transition">Compras</a>
+                <a href="customers.html" class="hover:text-blue-400 transition">Clientes</a>
+                <a href="suppliers.html" class="text-blue-400 font-bold">Proveedores</a>
+                <a href="cash.html" class="hover:text-blue-400 transition">Caja</a>
+                <a href="reports.html" class="hover:text-blue-400 transition">Reportes</a>
+                <a href="settings.html" class="hover:text-blue-400 transition"><i class="fas fa-cog"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-8">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold">Gestión de Proveedores</h1>
+            <div class="flex space-x-4">
+                <div class="relative">
+                    <i class="fas fa-search absolute left-3 top-3 text-slate-500"></i>
+                    <input type="text" id="search-supplier" oninput="filterSuppliers()" placeholder="Buscar proveedor..." class="bg-slate-800 border border-slate-700 rounded-lg py-2 pl-10 pr-4 focus:outline-none focus:border-blue-500 transition">
+                </div>
+                <button onclick="abrirModalProveedor()" class="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg font-bold transition">
+                    + Nuevo Proveedor
+                </button>
+            </div>
+        </div>
+
+        <div class="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden">
+            <table class="w-full text-left">
+                <thead class="bg-slate-700/50 text-slate-400 uppercase text-xs">
+                    <tr>
+                        <th class="p-4">RUC / DNI</th>
+                        <th class="p-4">Proveedor / Marca</th>
+                        <th class="p-4">Dirección</th>
+                        <th class="p-4">Teléfono</th>
+                        <th class="p-4 text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="suppliers-table-body" class="divide-y divide-slate-700">
+                    <!-- Los proveedores se cargarán aquí -->
+                </tbody>
+            </table>
+            <div id="no-suppliers-msg" class="hidden text-center py-10 text-slate-500 italic">
+                No se encontraron proveedores
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Nuevo Proveedor -->
+    <div id="modal-proveedor" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
+        <div class="bg-slate-800 border border-slate-700 w-full max-w-lg rounded-2xl p-6 shadow-2xl">
+            <h3 class="text-xl font-bold mb-6">Registrar Nuevo Proveedor</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="col-span-2">
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Nombre / Razón Social</label>
+                    <input type="text" id="prov-nombre" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 focus:border-blue-500 outline-none transition">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-2">RUC / DNI</label>
+                    <input type="text" id="prov-ruc" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 focus:border-blue-500 outline-none transition">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Teléfono</label>
+                    <input type="text" id="prov-tel" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 focus:border-blue-500 outline-none transition">
+                </div>
+                <div class="col-span-2">
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Dirección</label>
+                    <input type="text" id="prov-dir" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 focus:border-blue-500 outline-none transition">
+                </div>
+                <div class="col-span-2">
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Email</label>
+                    <input type="email" id="prov-email" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 focus:border-blue-500 outline-none transition">
+                </div>
+            </div>
+            <div class="flex space-x-3 mt-8">
+                <button onclick="cerrarModalProveedor()" class="flex-1 py-3 bg-slate-700 rounded-xl font-bold hover:bg-slate-600 transition">CANCELAR</button>
+                <button onclick="guardarProveedor()" class="flex-1 py-3 bg-blue-600 rounded-xl font-bold hover:bg-blue-700 transition">GUARDAR</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allSuppliers = [
+            { nombre: 'Honda del Perú S.A.', ruc: '20100123456', direccion: 'Av. Javier Prado Este 1234, Lima', telefono: '01 4567890', email: 'ventas@honda.com.pe', tipo: 'Original' },
+            { nombre: 'Yamaha Motor Selva', ruc: '20300456789', direccion: 'Jr. Próspero 456, Iquitos', telefono: '065 234567', email: 'repuestos@yamaha.com.pe', tipo: 'Original' },
+            { nombre: 'Bajaj Autopartes SAC', ruc: '20500789012', direccion: 'Av. Industrial 789, Callao', telefono: '01 3456789', email: 'contacto@bajaj.pe', tipo: 'Original' },
+            { nombre: 'China Parts Importaciones', ruc: '20600112233', direccion: 'Av. Abancay 1020, Lima', telefono: '01 5671234', email: 'import@chinaparts.com', tipo: 'Chino' },
+            { nombre: 'Todo Chinas Motos EIRL', ruc: '20400556677', direccion: 'Jr. Huánuco 345, Pucallpa', telefono: '061 456789', email: 'ventas@todochinas.com', tipo: 'Chino' },
+            { nombre: 'Asia Motor Repuestos', ruc: '20555666777', direccion: 'Av. Grau 890, Lima', telefono: '01 4445556', email: 'pedidos@asiamotor.pe', tipo: 'Chino' },
+            { nombre: 'Juan Carlos Rimachi', ruc: '10123456789', direccion: 'Calle Los Jazmines 123, Pucallpa', telefono: '987654321', email: 'juan.rimachi@gmail.com', tipo: 'Persona' },
+            { nombre: 'Maria Esperanza Lopez', ruc: '10445566778', direccion: 'Av. Centenario Km 4.5, Pucallpa', telefono: '944556677', email: 'marialopez@hotmail.com', tipo: 'Persona' },
+            { nombre: 'Ricardo Mendoza', ruc: '10778899001', direccion: 'Jr. Tarapacá 678, Pucallpa', telefono: '911223344', email: 'tigremendoza@gmail.com', tipo: 'Persona' }
+        ];
+
+        function renderSuppliers(list) {
+            const body = document.getElementById('suppliers-table-body');
+            const noMsg = document.getElementById('no-suppliers-msg');
+            
+            if (list.length === 0) {
+                body.innerHTML = '';
+                noMsg.classList.remove('hidden');
+                return;
+            }
+            
+            noMsg.classList.add('hidden');
+            body.innerHTML = list.map(s => `
+                <tr class="hover:bg-slate-700/30 transition border-b border-slate-700/50">
+                    <td class="p-4 text-xs font-mono text-slate-500">${s.ruc}</td>
+                    <td class="p-4">
+                        <div class="font-bold text-white">${s.nombre}</div>
+                        <div class="text-[10px] text-blue-500 uppercase font-black">${s.tipo || 'General'}</div>
+                    </td>
+                    <td class="p-4 text-sm text-slate-400">${s.direccion}</td>
+                    <td class="p-4 text-sm font-bold text-slate-300">${s.telefono}</td>
+                    <td class="p-4 text-center">
+                        <div class="flex justify-center space-x-2">
+                            <button onclick="alert('Editando a ${s.nombre}')" class="p-2 bg-blue-500/10 text-blue-500 rounded-lg hover:bg-blue-500 hover:text-white transition">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="confirm('¿Eliminar proveedor?') && alert('Eliminado')" class="p-2 bg-red-500/10 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterSuppliers() {
+            const query = document.getElementById('search-supplier').value.toLowerCase();
+            const filtered = allSuppliers.filter(s => 
+                s.nombre.toLowerCase().includes(query) || 
+                s.ruc.includes(query)
+            );
+            renderSuppliers(filtered);
+        }
+
+        function abrirModalProveedor() {
+            document.getElementById('modal-proveedor').classList.remove('hidden');
+            document.getElementById('modal-proveedor').classList.add('flex');
+        }
+
+        function cerrarModalProveedor() {
+            document.getElementById('modal-proveedor').classList.add('hidden');
+            document.getElementById('modal-proveedor').classList.remove('flex');
+        }
+
+        function guardarProveedor() {
+            const nombre = document.getElementById('prov-nombre').value;
+            const ruc = document.getElementById('prov-ruc').value;
+            if (!nombre || !ruc) return alert('Nombre y RUC son obligatorios');
+            
+            allSuppliers.unshift({
+                nombre,
+                ruc,
+                telefono: document.getElementById('prov-tel').value,
+                direccion: document.getElementById('prov-dir').value,
+                email: document.getElementById('prov-email').value,
+                tipo: 'Nuevo'
+            });
+            
+            renderSuppliers(allSuppliers);
+            cerrarModalProveedor();
+            alert('✅ Proveedor registrado correctamente');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => renderSuppliers(allSuppliers));
+    </script>
+</body>
+</html>

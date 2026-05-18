@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario - MotoStock Pro 2026</title>
+    <script>
+        if (sessionStorage.getItem('isLoggedIn') !== 'true' || sessionStorage.getItem('role') !== 'admin') {
+            window.location.replace('login.html');
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-slate-900 text-white min-h-screen">
+    <nav class="bg-slate-800 border-b border-slate-700 p-4 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-2">
+                <i class="fas fa-motorcycle text-blue-500 text-2xl"></i>
+                <span class="text-xl font-bold tracking-wider">MOTOSTOCK <span class="text-blue-500">PRO</span></span>
+            </a>
+            <div class="hidden lg:flex space-x-4 text-sm">
+                <a href="index.html" class="hover:text-blue-400 transition">Inicio</a>
+                <a href="inventory.html" class="text-blue-400 font-bold">Inventario</a>
+                <a href="sales.html" class="hover:text-blue-400 transition">Ventas</a>
+                <a href="purchases.html" class="hover:text-blue-400 transition">Compras</a>
+                <a href="customers.html" class="hover:text-blue-400 transition">Clientes</a>
+                <a href="suppliers.html" class="hover:text-blue-400 transition">Proveedores</a>
+                <a href="cash.html" class="hover:text-blue-400 transition">Caja</a>
+                <a href="reports.html" class="hover:text-blue-400 transition">Reportes</a>
+                <a href="settings.html" class="hover:text-blue-400 transition"><i class="fas fa-cog"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-8">
+        <div class="flex justify-between items-center mb-8">
+            <div class="relative w-1/3">
+                <i class="fas fa-search absolute left-3 top-3 text-slate-500"></i>
+                <input type="text" placeholder="Buscar por código o nombre..." class="w-full bg-slate-800 border border-slate-700 rounded-lg py-2 pl-10 pr-4 focus:outline-none focus:border-blue-500">
+            </div>
+            <button class="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg font-bold transition flex items-center">
+                <i class="fas fa-plus mr-2"></i> Nuevo Repuesto
+            </button>
+        </div>
+
+        <div class="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden">
+            <table class="w-full text-left">
+                <thead class="bg-slate-700/50">
+                    <tr>
+                        <th class="p-4">Imagen</th>
+                        <th class="p-4">Código</th>
+                        <th class="p-4">Repuesto</th>
+                        <th class="p-4">Marca</th>
+                        <th class="p-4">Stock</th>
+                        <th class="p-4">Precio Venta</th>
+                        <th class="p-4">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="inventory-body" class="divide-y divide-slate-700">
+                    <!-- Los productos se cargarán dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        async function loadInventory() {
+            try {
+                const response = await fetch('/api/productos');
+                const products = await response.json();
+                const body = document.getElementById('inventory-body');
+                
+                if (products.length === 0) {
+                    body.innerHTML = '<tr><td colspan="7" class="p-8 text-center text-slate-500 italic">No hay productos registrados en la base de datos.</td></tr>';
+                    return;
+                }
+
+                body.innerHTML = products.map(p => `
+                    <tr class="hover:bg-slate-700/30 transition">
+                        <td class="p-2">
+                            <div class="w-12 h-12 bg-slate-700 rounded-lg flex items-center justify-center overflow-hidden">
+                                ${p.imagen_url ? 
+                                    `<img src="${p.imagen_url}" alt="${p.nombre}" class="w-full h-full object-contain">` :
+                                    `<i class="fas fa-image text-slate-500"></i>`
+                                }
+                            </div>
+                        </td>
+                        <td class="p-4 text-slate-400 font-mono text-sm">${p.codigo_fabrica || 'S/N'}</td>
+                        <td class="p-4 font-bold">${p.nombre}</td>
+                        <td class="p-4"><span class="bg-slate-700 px-2 py-1 rounded text-xs uppercase">${p.marca_id || 'Genérico'}</span></td>
+                        <td class="p-4">
+                            <span class="${p.stock <= p.stock_minimo ? 'text-red-500 bg-red-500/10' : 'text-green-500 bg-green-500/10'} px-2 py-1 rounded font-bold">
+                                ${p.stock}
+                            </span>
+                        </td>
+                        <td class="p-4 font-semibold text-blue-400">S/ ${parseFloat(p.precio_venta).toFixed(2)}</td>
+                        <td class="p-4 flex space-x-2">
+                            <button class="text-blue-400 hover:text-blue-300 transition"><i class="fas fa-edit"></i></button>
+                            <button class="text-red-400 hover:text-red-300 transition"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (err) {
+                console.error('Error al cargar inventario:', err);
+                document.getElementById('inventory-body').innerHTML = '<tr><td colspan="7" class="p-8 text-center text-red-500">Error de conexión con el servidor.</td></tr>';
+            }
+        }
+        document.addEventListener('DOMContentLoaded', loadInventory);
+    </script>
+    <script src="/controller/search-engine.js"></script>
+</body>
+</html>

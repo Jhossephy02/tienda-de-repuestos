@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes - MotoStock Pro 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-slate-900 text-white min-h-screen">
+    <nav class="bg-slate-800 border-b border-slate-700 p-4 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-2">
+                <i class="fas fa-motorcycle text-blue-500 text-2xl"></i>
+                <span class="text-xl font-bold tracking-wider">MOTOSTOCK <span class="text-blue-500">PRO</span></span>
+            </a>
+            <div class="hidden lg:flex space-x-4 text-sm">
+                <a href="index.html" class="hover:text-blue-400 transition">Inicio</a>
+                <a href="inventory.html" class="hover:text-blue-400 transition">Inventario</a>
+                <a href="sales.html" class="hover:text-blue-400 transition">Ventas</a>
+                <a href="purchases.html" class="hover:text-blue-400 transition">Compras</a>
+                <a href="customers.html" class="text-blue-400 font-bold">Clientes</a>
+                <a href="suppliers.html" class="hover:text-blue-400 transition">Proveedores</a>
+                <a href="cash.html" class="hover:text-blue-400 transition">Caja</a>
+                <a href="reports.html" class="hover:text-blue-400 transition">Reportes</a>
+                <a href="settings.html" class="hover:text-blue-400 transition"><i class="fas fa-cog"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-8">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold">Base de Datos de Clientes</h1>
+            <div class="flex space-x-4">
+                <div class="relative">
+                    <i class="fas fa-search absolute left-3 top-3 text-slate-500"></i>
+                    <input type="text" id="search-customer" oninput="filterCustomers()" placeholder="Buscar por DNI o nombre..." class="bg-slate-800 border border-slate-700 rounded-lg py-2 pl-10 pr-4 focus:outline-none focus:border-blue-500 transition">
+                </div>
+                <button onclick="abrirModalCliente()" class="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg font-bold transition">
+                    + Nuevo Cliente
+                </button>
+            </div>
+        </div>
+
+        <div class="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden">
+            <table class="w-full text-left">
+                <thead class="bg-slate-700/50 text-slate-400 uppercase text-xs">
+                    <tr>
+                        <th class="p-4">DNI / RUC</th>
+                        <th class="p-4">Cliente</th>
+                        <th class="p-4">Celular</th>
+                        <th class="p-4">Última Compra</th>
+                        <th class="p-4 text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="customers-table-body" class="divide-y divide-slate-700">
+                    <!-- Los clientes se cargarán aquí -->
+                </tbody>
+            </table>
+            <div id="no-customers-msg" class="hidden text-center py-10 text-slate-500 italic">
+                No se encontraron clientes
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Nuevo Cliente -->
+    <div id="modal-cliente" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
+        <div class="bg-slate-800 border border-slate-700 w-full max-w-md rounded-2xl p-6 shadow-2xl">
+            <h3 class="text-xl font-bold mb-6">Registrar Nuevo Cliente</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-2">DNI / RUC</label>
+                    <input type="text" id="cli-dni" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 focus:border-blue-500 outline-none transition">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Nombre Completo</label>
+                    <input type="text" id="cli-nombre" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 focus:border-blue-500 outline-none transition">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Celular</label>
+                    <input type="text" id="cli-tel" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 focus:border-blue-500 outline-none transition">
+                </div>
+            </div>
+            <div class="flex space-x-3 mt-8">
+                <button onclick="cerrarModalCliente()" class="flex-1 py-3 bg-slate-700 rounded-xl font-bold hover:bg-slate-600 transition">CANCELAR</button>
+                <button onclick="guardarCliente()" class="flex-1 py-3 bg-blue-600 rounded-xl font-bold hover:bg-blue-700 transition">GUARDAR</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allCustomers = [
+            { dni: '71234567', nombre: 'Juan Carlos Pérez', tel: '955-000-111', ultima: '15 Mayo 2026' },
+            { dni: '20123456789', nombre: 'MotoRepuestos S.A.C', tel: '01 4567890', ultima: '12 Mayo 2026' },
+            { dni: '12345678', nombre: 'Maria Garcia Lopez', tel: '988-777-666', ultima: '10 Mayo 2026' }
+        ];
+
+        function renderCustomers(list) {
+            const body = document.getElementById('customers-table-body');
+            const noMsg = document.getElementById('no-customers-msg');
+            
+            if (list.length === 0) {
+                body.innerHTML = '';
+                noMsg.classList.remove('hidden');
+                return;
+            }
+            
+            noMsg.classList.add('hidden');
+            body.innerHTML = list.map(c => `
+                <tr class="hover:bg-slate-700/30 transition border-b border-slate-700/50">
+                    <td class="p-4 text-xs font-mono text-slate-500">${c.dni}</td>
+                    <td class="p-4 font-bold text-white">${c.nombre}</td>
+                    <td class="p-4 text-sm text-slate-300">${c.tel}</td>
+                    <td class="p-4 text-sm text-slate-400">${c.ultima}</td>
+                    <td class="p-4 text-center">
+                        <div class="flex justify-center space-x-2">
+                            <button onclick="alert('Viendo historial de ${c.nombre}')" class="p-2 bg-blue-500/10 text-blue-500 rounded-lg hover:bg-blue-500 hover:text-white transition">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button onclick="alert('Editando a ${c.nombre}')" class="p-2 bg-green-500/10 text-green-500 rounded-lg hover:bg-green-500 hover:text-white transition">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterCustomers() {
+            const query = document.getElementById('search-customer').value.toLowerCase();
+            const filtered = allCustomers.filter(c => 
+                c.nombre.toLowerCase().includes(query) || 
+                c.dni.includes(query)
+            );
+            renderCustomers(filtered);
+        }
+
+        function abrirModalCliente() {
+            document.getElementById('modal-cliente').classList.remove('hidden');
+            document.getElementById('modal-cliente').classList.add('flex');
+        }
+
+        function cerrarModalCliente() {
+            document.getElementById('modal-cliente').classList.add('hidden');
+            document.getElementById('modal-cliente').classList.remove('flex');
+        }
+
+        function guardarCliente() {
+            const nombre = document.getElementById('cli-nombre').value;
+            const dni = document.getElementById('cli-dni').value;
+            if (!nombre || !dni) return alert('Nombre y DNI son obligatorios');
+            
+            allCustomers.unshift({
+                nombre,
+                dni,
+                tel: document.getElementById('cli-tel').value,
+                ultima: 'Hoy'
+            });
+            
+            renderCustomers(allCustomers);
+            cerrarModalCliente();
+            alert('✅ Cliente registrado correctamente');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => renderCustomers(allCustomers));
+    </script>
+</body>
+</html>
