@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caja y Finanzas - MotoStock Pro 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-slate-900 text-white min-h-screen">
+    <nav class="bg-slate-800 border-b border-slate-700 p-4 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-2">
+                <i class="fas fa-motorcycle text-blue-500 text-2xl"></i>
+                <span class="text-xl font-bold tracking-wider">MOTOSTOCK <span class="text-blue-500">PRO</span></span>
+            </a>
+            <div class="hidden lg:flex space-x-4 text-sm">
+                <a href="index.html" class="hover:text-blue-400 transition">Inicio</a>
+                <a href="inventory.html" class="hover:text-blue-400 transition">Inventario</a>
+                <a href="sales.html" class="hover:text-blue-400 transition">Ventas</a>
+                <a href="purchases.html" class="hover:text-blue-400 transition">Compras</a>
+                <a href="customers.html" class="hover:text-blue-400 transition">Clientes</a>
+                <a href="suppliers.html" class="hover:text-blue-400 transition">Proveedores</a>
+                <a href="cash.html" class="text-blue-400 font-bold">Caja</a>
+                <a href="reports.html" class="hover:text-blue-400 transition">Reportes</a>
+                <a href="settings.html" class="hover:text-blue-400 transition"><i class="fas fa-cog"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-8">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold">Control de Caja y Finanzas</h1>
+            <div class="flex space-x-4">
+                <button id="btn-apertura" onclick="abrirModalApertura()" class="bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg font-bold transition flex items-center">
+                    <i class="fas fa-door-open mr-2"></i> Apertura de Caja
+                </button>
+                <button id="btn-cierre" onclick="confirmarCierre()" class="bg-red-600 hover:bg-red-700 px-6 py-2 rounded-lg font-bold transition flex items-center hidden">
+                    <i class="fas fa-door-closed mr-2"></i> Cierre de Caja
+                </button>
+            </div>
+        </div>
+
+        <!-- Estado de Caja -->
+        <div id="caja-status-banner" class="mb-6 p-4 rounded-xl border flex items-center justify-between bg-slate-800 border-slate-700">
+            <div class="flex items-center">
+                <div id="status-indicator" class="w-3 h-3 rounded-full bg-red-500 mr-3 animate-pulse"></div>
+                <span id="status-text" class="font-bold text-slate-300">CAJA CERRADA</span>
+            </div>
+            <div id="caja-info" class="text-sm text-slate-400 hidden">
+                Aperturada por: <span class="text-white font-bold">Admin</span> | 
+                Fecha: <span id="apertura-fecha" class="text-white">--/--/--</span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
+                <p class="text-slate-400 text-sm">Saldo Inicial</p>
+                <p id="saldo-inicial" class="text-3xl font-bold text-slate-300">S/ 0.00</p>
+            </div>
+            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
+                <p class="text-slate-400 text-sm">Ventas Efectivo</p>
+                <p id="ventas-efectivo" class="text-3xl font-bold text-green-500">S/ 0.00</p>
+            </div>
+            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
+                <p class="text-slate-400 text-sm">Ventas Digitales</p>
+                <p id="ventas-digitales" class="text-3xl font-bold text-blue-500">S/ 0.00</p>
+            </div>
+            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
+                <p class="text-slate-400 text-sm">Saldo Actual</p>
+                <p id="saldo-total" class="text-3xl font-bold text-white">S/ 0.00</p>
+            </div>
+        </div>
+
+        <div class="bg-slate-800 rounded-xl border border-slate-700 p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold">Movimientos de Hoy</h2>
+                <button onclick="registrarGasto()" class="text-xs bg-slate-700 hover:bg-slate-600 px-3 py-1 rounded-lg transition">
+                    + Registrar Gasto
+                </button>
+            </div>
+            <div id="movimientos-container" class="space-y-4">
+                <!-- Los movimientos se cargarán aquí -->
+                <div class="text-center py-10 text-slate-500 italic">
+                    No hay movimientos registrados hoy
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Apertura -->
+    <div id="modal-apertura" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
+        <div class="bg-slate-800 border border-slate-700 w-full max-w-md rounded-2xl p-6 shadow-2xl">
+            <h3 class="text-xl font-bold mb-4">Apertura de Caja</h3>
+            <p class="text-slate-400 text-sm mb-6">Ingrese el monto inicial de efectivo con el que inicia el turno.</p>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Monto Inicial (S/)</label>
+                    <input type="number" id="monto-inicial-input" value="0.00" step="0.10" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-2xl font-black text-blue-500 focus:outline-none focus:border-blue-500 transition">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="cerrarModalApertura()" class="py-3 bg-slate-700 rounded-xl font-bold hover:bg-slate-600 transition">CANCELAR</button>
+                    <button onclick="ejecutarApertura()" class="py-3 bg-green-600 rounded-xl font-bold hover:bg-green-700 transition">ABRIR CAJA</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cajaAbierta = false;
+        let movimientos = [];
+        let stats = {
+            inicial: 0,
+            efectivo: 0,
+            digital: 0,
+            gastos: 0
+        };
+
+        function checkCajaStatus() {
+            const savedStatus = localStorage.getItem('cajaAbierta');
+            if (savedStatus === 'true') {
+                cajaAbierta = true;
+                stats.inicial = parseFloat(localStorage.getItem('cajaMontoInicial') || 0);
+                stats.efectivo = parseFloat(localStorage.getItem('cajaVentasEfectivo') || 0);
+                stats.digital = parseFloat(localStorage.getItem('cajaVentasDigital') || 0);
+                stats.gastos = parseFloat(localStorage.getItem('cajaGastos') || 0);
+                actualizarUI();
+                cargarMovimientosDemo();
+            }
+        }
+
+        function abrirModalApertura() {
+            document.getElementById('modal-apertura').classList.remove('hidden');
+            document.getElementById('modal-apertura').classList.add('flex');
+        }
+
+        function cerrarModalApertura() {
+            document.getElementById('modal-apertura').classList.add('hidden');
+            document.getElementById('modal-apertura').classList.remove('flex');
+        }
+
+        function ejecutarApertura() {
+            const monto = parseFloat(document.getElementById('monto-inicial-input').value);
+            if (isNaN(monto) || monto < 0) return alert('Ingrese un monto válido');
+
+            cajaAbierta = true;
+            stats.inicial = monto;
+            
+            localStorage.setItem('cajaAbierta', 'true');
+            localStorage.setItem('cajaMontoInicial', monto);
+            localStorage.setItem('cajaAperturaFecha', new Date().toLocaleString());
+            
+            actualizarUI();
+            cerrarModalApertura();
+            
+            // Simular movimiento de apertura
+            addMovimiento('Apertura de Caja', monto, 'ingreso', 'Efectivo');
+            
+            alert('✅ Caja aperturada correctamente con S/ ' + monto.toFixed(2));
+        }
+
+        function confirmarCierre() {
+            if (confirm('¿Está seguro que desea cerrar la caja del turno actual?')) {
+                alert('📦 Generando reporte de cierre...\n\nTotal Efectivo: S/ ' + (stats.inicial + stats.efectivo - stats.gastos).toFixed(2) + '\nTotal Digital: S/ ' + stats.digital.toFixed(2));
+                
+                localStorage.removeItem('cajaAbierta');
+                localStorage.removeItem('cajaMontoInicial');
+                localStorage.removeItem('cajaVentasEfectivo');
+                localStorage.removeItem('cajaVentasDigital');
+                localStorage.removeItem('cajaGastos');
+                
+                location.reload();
+            }
+        }
+
+        function addMovimiento(concepto, monto, tipo, medio) {
+            const mov = {
+                id: Date.now(),
+                concepto,
+                monto,
+                tipo,
+                medio,
+                hora: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            };
+            movimientos.unshift(mov);
+            renderMovimientos();
+        }
+
+        function renderMovimientos() {
+            const container = document.getElementById('movimientos-container');
+            if (movimientos.length === 0) {
+                container.innerHTML = '<div class="text-center py-10 text-slate-500 italic">No hay movimientos registrados hoy</div>';
+                return;
+            }
+
+            container.innerHTML = movimientos.map(m => `
+                <div class="flex justify-between items-center p-4 bg-slate-700/30 rounded-lg border border-slate-700/50 animate-fade-in">
+                    <div class="flex items-center">
+                        <div class="p-2 ${m.tipo === 'ingreso' ? 'bg-green-500/20 text-green-500' : 'bg-red-500/20 text-red-500'} rounded-full mr-4">
+                            <i class="fas ${m.tipo === 'ingreso' ? 'fa-arrow-up' : 'fa-arrow-down'}"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold">${m.concepto}</p>
+                            <p class="text-xs text-slate-400">${m.hora} - ${m.medio}</p>
+                        </div>
+                    </div>
+                    <p class="font-bold ${m.tipo === 'ingreso' ? 'text-green-500' : 'text-red-500'}">
+                        ${m.tipo === 'ingreso' ? '+' : '-'} S/ ${m.monto.toFixed(2)}
+                    </p>
+                </div>
+            `).join('');
+        }
+
+        function actualizarUI() {
+            if (cajaAbierta) {
+                document.getElementById('btn-apertura').classList.add('hidden');
+                document.getElementById('btn-cierre').classList.remove('hidden');
+                document.getElementById('status-indicator').classList.replace('bg-red-500', 'bg-green-500');
+                document.getElementById('status-text').innerText = 'CAJA ABIERTA';
+                document.getElementById('status-text').classList.replace('text-slate-300', 'text-green-500');
+                document.getElementById('caja-info').classList.remove('hidden');
+                document.getElementById('apertura-fecha').innerText = localStorage.getItem('cajaAperturaFecha');
+                
+                document.getElementById('saldo-inicial').innerText = `S/ ${stats.inicial.toFixed(2)}`;
+                document.getElementById('ventas-efectivo').innerText = `S/ ${stats.efectivo.toFixed(2)}`;
+                document.getElementById('ventas-digitales').innerText = `S/ ${stats.digital.toFixed(2)}`;
+                document.getElementById('saldo-total').innerText = `S/ ${(stats.inicial + stats.efectivo + stats.digital - stats.gastos).toFixed(2)}`;
+            }
+        }
+
+        function cargarMovimientosDemo() {
+            // Solo para que se vea con vida si ya estaba abierta
+            if (movimientos.length === 0) {
+                addMovimiento('Venta #VEN-042', 150.00, 'ingreso', 'Yape');
+                addMovimiento('Venta #VEN-041', 45.00, 'ingreso', 'Efectivo');
+                addMovimiento('Pago Delivery', 15.00, 'egreso', 'Efectivo');
+            }
+        }
+
+        function registrarGasto() {
+            if (!cajaAbierta) return alert('Debe abrir la caja primero');
+            const concepto = prompt('Concepto del gasto:');
+            if (!concepto) return;
+            const monto = parseFloat(prompt('Monto del gasto (S/):'));
+            if (isNaN(monto) || monto <= 0) return alert('Monto inválido');
+
+            stats.gastos += monto;
+            localStorage.setItem('cajaGastos', stats.gastos);
+            addMovimiento(concepto, monto, 'egreso', 'Efectivo');
+            actualizarUI();
+        }
+
+        document.addEventListener('DOMContentLoaded', checkCajaStatus);
+    </script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+    </style>
+</body>
+</html>
