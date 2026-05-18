@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - MotoStock Pro 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @keyframes slideIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .animate-slide-in {
+            animation: slideIn 0.5s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-white min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-md w-full bg-slate-800 rounded-2xl shadow-2xl border border-slate-700 p-8 animate-slide-in">
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-full mb-4 shadow-lg shadow-blue-500/20">
+                <i class="fas fa-motorcycle text-3xl"></i>
+            </div>
+            <h1 class="text-3xl font-bold tracking-tight">MOTOSTOCK <span class="text-blue-500">PRO</span></h1>
+            <p id="form-title" class="text-slate-400 mt-2">Iniciar Sesión</p>
+        </div>
+
+        <!-- Login Form -->
+        <form id="login-form" class="space-y-6">
+            <div>
+                <label class="block text-sm font-medium text-slate-300 mb-2">DNI o Correo Electrónico</label>
+                <div class="relative">
+                    <i class="fas fa-id-card absolute left-3 top-3.5 text-slate-500"></i>
+                    <input type="text" id="username" required class="w-full bg-slate-900 border border-slate-700 rounded-xl py-3 pl-10 pr-4 focus:outline-none focus:border-blue-500 transition" placeholder="Ingrese su DNI o correo">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-slate-300 mb-2">Contraseña</label>
+                <div class="relative">
+                    <i class="fas fa-lock absolute left-3 top-3.5 text-slate-500"></i>
+                    <input type="password" id="password" required class="w-full bg-slate-900 border border-slate-700 rounded-xl py-3 pl-10 pr-12 focus:outline-none focus:border-blue-500 transition" placeholder="••••••••">
+                    <button type="button" onclick="togglePassword('password', 'eye-icon')" class="absolute right-3 top-3.5 text-slate-500 hover:text-blue-500 transition">
+                        <i id="eye-icon" class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 py-4 rounded-xl font-bold text-lg shadow-lg shadow-blue-500/20 transition transform active:scale-95">
+                INGRESAR AL SISTEMA
+            </button>
+            
+            <p class="text-center text-sm text-slate-400">
+                ¿No tienes cuenta? <a href="#" onclick="toggleForms()" class="text-blue-500 hover:underline">Regístrate aquí</a>
+            </p>
+        </form>
+
+        <!-- Register Form (Hidden by default) -->
+        <form id="register-form" class="space-y-4 hidden">
+            <div>
+                <label class="block text-sm font-medium text-slate-300 mb-1">Nombre Completo</label>
+                <div class="relative">
+                    <i class="fas fa-user-circle absolute left-3 top-3.5 text-slate-500"></i>
+                    <input type="text" id="reg-fullname" required class="w-full bg-slate-900 border border-slate-700 rounded-xl py-3 pl-10 pr-4 focus:outline-none focus:border-blue-500 transition" placeholder="Ej. Juan Pérez">
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-300 mb-1">Número de DNI</label>
+                <div class="relative">
+                    <i class="fas fa-id-card absolute left-3 top-3.5 text-slate-500"></i>
+                    <input type="text" id="reg-dni" maxlength="8" required class="w-full bg-slate-900 border border-slate-700 rounded-xl py-3 pl-10 pr-4 focus:outline-none focus:border-blue-500 transition" placeholder="8 dígitos">
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-300 mb-1">Usuario / Email</label>
+                <div class="relative">
+                    <i class="fas fa-at absolute left-3 top-3.5 text-slate-500"></i>
+                    <input type="email" id="reg-email" required class="w-full bg-slate-900 border border-slate-700 rounded-xl py-3 pl-10 pr-4 focus:outline-none focus:border-blue-500 transition" placeholder="correo@ejemplo.com">
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-300 mb-1">Contraseña</label>
+                <div class="relative">
+                    <i class="fas fa-lock absolute left-3 top-3.5 text-slate-500"></i>
+                    <input type="password" id="reg-password" required class="w-full bg-slate-900 border border-slate-700 rounded-xl py-3 pl-10 pr-12 focus:outline-none focus:border-blue-500 transition" placeholder="••••••••">
+                    <button type="button" onclick="togglePassword('reg-password', 'reg-eye-icon')" class="absolute right-3 top-3.5 text-slate-500 hover:text-blue-500 transition">
+                        <i id="reg-eye-icon" class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+            <button type="submit" class="w-full bg-green-600 hover:bg-green-700 py-4 rounded-xl font-bold text-lg shadow-lg shadow-green-500/20 transition transform active:scale-95 mt-4">
+                CREAR CUENTA
+            </button>
+            <p class="text-center text-sm text-slate-400">
+                ¿Ya tienes cuenta? <a href="#" onclick="toggleForms()" class="text-blue-500 hover:underline">Inicia Sesión</a>
+            </p>
+        </form>
+
+        <div class="mt-8 pt-8 border-t border-slate-700 text-center space-y-4">
+            <p class="text-sm text-slate-500">Protección de acceso activa <i class="fas fa-shield-alt ml-1 text-blue-500"></i></p>
+            
+            <a href="store.html" class="inline-flex items-center text-slate-400 hover:text-white transition group">
+                <i class="fas fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i>
+                <span class="text-xs font-bold tracking-widest uppercase">Volver a la Tienda</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Prevenir que se pueda volver atrás después de cerrar sesión
+        window.history.pushState(null, null, window.location.href);
+        window.onpopstate = function () {
+            window.history.go(1);
+        };
+
+        function togglePassword(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        function toggleForms() {
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const title = document.getElementById('form-title');
+            
+            loginForm.classList.toggle('hidden');
+            registerForm.classList.toggle('hidden');
+            title.innerText = loginForm.classList.contains('hidden') ? 'Crear Nueva Cuenta' : 'Iniciar Sesión';
+        }
+
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+
+            // 1. Verificar credenciales fijas (Admin y Cliente Demo)
+            if (user === 'admin' && pass === 'admin123') {
+                sessionStorage.setItem('isLoggedIn', 'true');
+                sessionStorage.setItem('role', 'admin');
+                return window.location.replace('index.html');
+            } else if (user === 'cliente' && pass === 'cliente123') {
+                sessionStorage.setItem('isLoggedIn', 'true');
+                sessionStorage.setItem('role', 'cliente');
+                return window.location.replace('store.html');
+            } 
+            
+            // 2. Verificar usuarios registrados en localStorage
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const foundUser = users.find(u => (u.dni === user || u.email === user) && u.password === pass);
+
+            if (foundUser) {
+                sessionStorage.setItem('isLoggedIn', 'true');
+                sessionStorage.setItem('role', 'cliente');
+                sessionStorage.setItem('userName', foundUser.fullname);
+                window.location.replace('store.html');
+            } else {
+                alert('Credenciales incorrectas.');
+            }
+        });
+
+        document.getElementById('register-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const newUser = {
+                fullname: document.getElementById('reg-fullname').value,
+                dni: document.getElementById('reg-dni').value,
+                email: document.getElementById('reg-email').value,
+                password: document.getElementById('reg-password').value
+            };
+
+            // Guardar en localStorage
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            // Verificar si el DNI o Email ya existen
+            if (users.some(u => u.dni === newUser.dni || u.email === newUser.email)) {
+                return alert('El DNI o Email ya se encuentran registrados.');
+            }
+
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+
+            alert('¡Cuenta creada con éxito! Ahora puedes iniciar sesión con tu DNI o Email.');
+            
+            // Limpiar campos y volver al login
+            e.target.reset();
+            toggleForms();
+        });
+    </script>
+</body>
+</html>
