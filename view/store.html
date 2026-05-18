@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">.
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,8 +18,8 @@
         }
     </style>
 </head>
-<body class="bg-slate-900 text-white min-h-screen">
-    <nav class="bg-slate-800 border-b border-slate-700 p-3 md:p-4 sticky top-0 z-50 backdrop-blur-md bg-opacity-80">
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+    <nav class="bg-white border-b border-slate-200 p-3 md:p-4 sticky top-0 z-50 backdrop-blur-md bg-opacity-80">
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-2">
                 <i class="fas fa-motorcycle text-blue-500 text-xl md:text-2xl"></i>
@@ -29,18 +29,18 @@
             <div class="flex-1 max-w-xl mx-4 md:mx-8">
                 <div class="relative">
                     <i class="fas fa-search absolute left-3 top-2.5 text-slate-500 text-sm"></i>
-                    <input type="text" id="search-input" oninput="filterStore()" placeholder="Buscar..." class="w-full bg-slate-900 border border-slate-700 rounded-full py-1.5 pl-9 pr-4 focus:outline-none focus:border-blue-500 text-sm">
+                    <input type="text" id="search-input" oninput="filterStore()" placeholder="Buscar..." class="w-full bg-white border border-slate-300 rounded-full py-1.5 pl-9 pr-4 focus:outline-none focus:border-blue-500 text-sm">
                 </div>
             </div>
 
             <div class="flex items-center space-x-3 md:space-x-6">
                 <button onclick="toggleCart()" class="relative hover:text-blue-500 transition">
                     <i class="fas fa-shopping-cart text-lg md:text-xl"></i>
-                    <span id="cart-count" class="absolute -top-1.5 -right-1.5 bg-blue-600 text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
+                    <span id="cart-count" class="absolute -top-1.5 -right-1.5 bg-blue-600 text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold text-white">0</span>
                 </button>
                 <div id="user-menu">
-                    <a href="login.html" class="flex items-center space-x-2 bg-slate-700/50 hover:bg-slate-700 p-2 md:px-4 md:py-2 rounded-xl border border-slate-600 transition group">
-                        <i class="fas fa-user-circle text-slate-400 group-hover:text-blue-500 transition text-lg"></i>
+                    <a href="login.html" class="flex items-center space-x-2 bg-slate-100/50 hover:bg-slate-100 p-2 md:px-4 md:py-2 rounded-xl border border-slate-200 transition group">
+                        <i class="fas fa-user-circle text-slate-500 group-hover:text-blue-500 transition text-lg"></i>
                         <span class="text-sm font-bold hidden md:block">Ingresar</span>
                     </a>
                 </div>
@@ -104,14 +104,14 @@
 
         <!-- Categories -->
         <div class="flex space-x-3 md:space-x-4 mb-8 md:mb-12 overflow-x-auto pb-4 no-scrollbar">
-            <button onclick="filterBy('all')" class="category-btn active bg-blue-600 px-4 md:px-6 py-2 rounded-full font-semibold whitespace-nowrap transition text-xs md:text-sm">Todos</button>
-            <button onclick="filterBy(1)" class="category-btn bg-slate-800 px-4 md:px-6 py-2 rounded-full font-semibold hover:bg-slate-700 transition whitespace-nowrap text-xs md:text-sm">Motor</button>
-            <button onclick="filterBy(2)" class="category-btn bg-slate-800 px-4 md:px-6 py-2 rounded-full font-semibold hover:bg-slate-700 transition whitespace-nowrap text-xs md:text-sm">Frenos</button>
-            <button onclick="filterBy(3)" class="category-btn bg-slate-800 px-4 md:px-6 py-2 rounded-full font-semibold hover:bg-slate-700 transition whitespace-nowrap text-xs md:text-sm">Transmisión</button>
-            <button onclick="filterBy(6)" class="category-btn bg-slate-800 px-4 md:px-6 py-2 rounded-full font-semibold hover:bg-slate-700 transition whitespace-nowrap text-xs md:text-sm">Lubricantes</button>
-            <button onclick="filterBy(5)" class="category-btn bg-slate-800 px-4 md:px-6 py-2 rounded-full font-semibold hover:bg-slate-700 transition whitespace-nowrap text-xs md:text-sm">Eléctrico</button>
-            <button onclick="filterBy(4)" class="category-btn bg-slate-800 px-4 md:px-6 py-2 rounded-full font-semibold hover:bg-slate-700 transition whitespace-nowrap text-xs md:text-sm">Suspensión</button>
-            <button onclick="filterBy(8)" class="category-btn bg-slate-800 px-4 md:px-6 py-2 rounded-full font-semibold hover:bg-slate-700 transition whitespace-nowrap text-xs md:text-sm">Accesorios</button>
+            <button onclick="filterBy('all')" class="category-btn active bg-blue-600 px-4 md:px-6 py-2 rounded-full font-semibold whitespace-nowrap transition text-xs md:text-sm text-white">Todos</button>
+            <button onclick="filterBy(1)" class="category-btn bg-white px-4 md:px-6 py-2 rounded-full font-semibold hover:bg-slate-100 border border-slate-200 transition whitespace-nowrap text-xs md:text-sm">Motor</button>
+            <button onclick="filterBy(2)" class="category-btn bg-white px-4 md:px-6 py-2 rounded-full font-semibold hover:bg-slate-100 border border-slate-200 transition whitespace-nowrap text-xs md:text-sm">Frenos</button>
+            <button onclick="filterBy(3)" class="category-btn bg-white px-4 md:px-6 py-2 rounded-full font-semibold hover:bg-slate-100 border border-slate-200 transition whitespace-nowrap text-xs md:text-sm">Transmisión</button>
+            <button onclick="filterBy(6)" class="category-btn bg-white px-4 md:px-6 py-2 rounded-full font-semibold hover:bg-slate-100 border border-slate-200 transition whitespace-nowrap text-xs md:text-sm">Lubricantes</button>
+            <button onclick="filterBy(5)" class="category-btn bg-white px-4 md:px-6 py-2 rounded-full font-semibold hover:bg-slate-100 border border-slate-200 transition whitespace-nowrap text-xs md:text-sm">Eléctrico</button>
+            <button onclick="filterBy(4)" class="category-btn bg-white px-4 md:px-6 py-2 rounded-full font-semibold hover:bg-slate-100 border border-slate-200 transition whitespace-nowrap text-xs md:text-sm">Suspensión</button>
+            <button onclick="filterBy(8)" class="category-btn bg-white px-4 md:px-6 py-2 rounded-full font-semibold hover:bg-slate-100 border border-slate-200 transition whitespace-nowrap text-xs md:text-sm">Accesorios</button>
         </div>
 
         <!-- Product Grid -->
@@ -119,7 +119,7 @@
             <!-- Cargando... -->
             <div class="col-span-full text-center py-20">
                 <i class="fas fa-circle-notch fa-spin text-4xl text-blue-500"></i>
-                <p class="mt-4 text-slate-400">Cargando catálogo...</p>
+                <p class="mt-4 text-slate-500">Cargando catálogo...</p>
             </div>
         </div>
     </main>
@@ -135,19 +135,19 @@
             <!-- Cargando... -->
             <div class="col-span-full text-center py-20">
                 <i class="fas fa-circle-notch fa-spin text-4xl text-blue-500"></i>
-                <p class="mt-4 text-slate-400">Cargando catálogo de repuestos...</p>
+                <p class="mt-4 text-slate-500">Cargando catálogo de repuestos...</p>
             </div>
         </div>
     </main>
 
     <!-- Modal Carrito -->
     <div id="cart-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden items-center justify-end p-0">
-        <div class="bg-slate-800 w-full max-w-md h-full shadow-2xl flex flex-col animate-slide-left">
-            <div class="p-6 border-b border-slate-700 flex justify-between items-center bg-slate-800/50">
-                <h3 class="text-xl font-bold flex items-center">
+        <div class="bg-white w-full max-w-md h-full shadow-2xl flex flex-col animate-slide-left">
+            <div class="p-6 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+                <h3 class="text-xl font-bold flex items-center text-slate-900">
                     <i class="fas fa-shopping-cart mr-2 text-blue-500"></i> Tu Carrito
                 </h3>
-                <button onclick="toggleCart()" class="text-slate-400 hover:text-white transition text-2xl">
+                <button onclick="toggleCart()" class="text-slate-500 hover:text-slate-600 transition text-2xl">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -158,12 +158,12 @@
                     Tu carrito está vacío
                 </div>
             </div>
-            <div class="p-6 border-t border-slate-700 bg-slate-900/50">
+            <div class="p-6 border-t border-slate-200 bg-slate-50">
                 <div class="flex justify-between items-center mb-6">
-                    <span class="text-slate-400 font-bold uppercase tracking-widest text-xs">Total Estimado</span>
-                    <span id="cart-total" class="text-2xl font-black text-blue-500">S/ 0.00</span>
+                    <span class="text-slate-500 font-bold uppercase tracking-widest text-xs">Total Estimado</span>
+                    <span id="cart-total" class="text-2xl font-black text-blue-600">S/ 0.00</span>
                 </div>
-                <button onclick="checkout()" class="w-full bg-blue-600 hover:bg-blue-700 py-4 rounded-xl font-bold text-lg shadow-xl shadow-blue-500/20 transition transform active:scale-95">
+                <button onclick="checkout()" class="w-full bg-blue-600 hover:bg-blue-700 py-4 rounded-xl font-bold text-lg shadow-xl shadow-blue-500/20 transition transform active:scale-95 text-white">
                     FINALIZAR COMPRA
                 </button>
             </div>
@@ -219,11 +219,11 @@
             }
 
             grid.innerHTML = products.map(p => `
-                <div class="bg-slate-800 rounded-2xl border border-slate-700 overflow-hidden product-card group transition hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/10">
-                    <div class="h-48 bg-slate-700/50 relative overflow-hidden flex items-center justify-center">
+                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden product-card group transition hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/10">
+                    <div class="h-48 bg-slate-50 relative overflow-hidden flex items-center justify-center">
                         ${p.imagen_url ? 
                             `<img src="${p.imagen_url}" alt="${p.nombre}" class="w-full h-full object-contain p-4 group-hover:scale-110 transition duration-500">` :
-                            `<i class="fas ${getIcon(p.categoria_id)} text-6xl text-slate-600 group-hover:scale-110 group-hover:text-blue-500/50 transition duration-500"></i>`
+                            `<i class="fas ${getIcon(p.categoria_id)} text-6xl text-slate-700 group-hover:scale-110 group-hover:text-blue-500/50 transition duration-500"></i>`
                         }
                         <div class="absolute inset-0 bg-black/40 flex items-center justify-center cart-btn">
                             <button onclick="addToCart(${p.id})" class="bg-blue-600 text-white px-6 py-2 rounded-xl font-bold shadow-xl transform active:scale-95 transition">Añadir al Carrito</button>
@@ -231,16 +231,16 @@
                     </div>
                     <div class="p-6">
                         <div class="flex justify-between items-start">
-                            <span class="text-[10px] bg-slate-700 text-blue-400 px-2 py-1 rounded-md font-bold uppercase tracking-wider">${p.marca_id || 'GENERAL'}</span>
-                            ${p.stock <= 5 ? '<span class="text-[10px] bg-red-500/20 text-red-500 px-2 py-1 rounded-md font-bold uppercase">Stock Bajo</span>' : ''}
+                            <span class="text-[10px] bg-slate-100 text-blue-600 px-2 py-1 rounded-md font-bold uppercase tracking-wider">${p.marca_id || 'GENERAL'}</span>
+                            ${p.stock <= 5 ? '<span class="text-[10px] bg-red-500/20 text-red-600 px-2 py-1 rounded-md font-bold uppercase">Stock Bajo</span>' : ''}
                         </div>
-                        <h3 class="text-md font-bold mt-3 leading-tight h-10 overflow-hidden">${p.nombre}</h3>
+                        <h3 class="text-md font-bold mt-3 leading-tight h-10 overflow-hidden text-slate-800">${p.nombre}</h3>
                         <div class="flex justify-between items-center mt-6">
                             <div>
                                 <p class="text-xs text-slate-500 line-through">S/ ${(p.precio_venta * 1.2).toFixed(2)}</p>
-                                <p class="text-2xl font-black text-white">S/ ${parseFloat(p.precio_venta).toFixed(2)}</p>
+                                <p class="text-2xl font-black text-slate-900">S/ ${parseFloat(p.precio_venta).toFixed(2)}</p>
                             </div>
-                            <button onclick="toggleFavorite(this)" class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center hover:bg-blue-600 transition">
+                            <button onclick="toggleFavorite(this)" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center hover:bg-blue-600 hover:text-white transition">
                                 <i class="fas fa-heart"></i>
                             </button>
                         </div>
@@ -328,18 +328,18 @@
             }
 
             container.innerHTML = cart.map(item => `
-                <div class="flex items-center space-x-4 bg-slate-700/30 p-4 rounded-xl border border-slate-700">
-                    <div class="w-16 h-16 bg-slate-800 rounded-lg flex items-center justify-center">
+                <div class="flex items-center space-x-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <div class="w-16 h-16 bg-white rounded-lg flex items-center justify-center border border-slate-100">
                         ${item.imagen_url ? 
                             `<img src="${item.imagen_url}" class="w-full h-full object-contain p-2">` : 
-                            `<i class="fas ${getIcon(item.categoria_id)} text-2xl text-slate-600"></i>`
+                            `<i class="fas ${getIcon(item.categoria_id)} text-2xl text-slate-700"></i>`
                         }
                     </div>
                     <div class="flex-1">
-                        <h4 class="text-sm font-bold truncate w-40">${item.nombre}</h4>
-                        <p class="text-blue-500 font-bold">S/ ${parseFloat(item.precio_venta).toFixed(2)} x ${item.quantity}</p>
+                        <h4 class="text-sm font-bold truncate w-40 text-slate-800">${item.nombre}</h4>
+                        <p class="text-blue-600 font-bold">S/ ${parseFloat(item.precio_venta).toFixed(2)} x ${item.quantity}</p>
                     </div>
-                    <button onclick="removeFromCart(${item.id})" class="text-red-500 hover:text-red-400 transition">
+                    <button onclick="removeFromCart(${item.id})" class="text-red-500 hover:text-red-600 transition">
                         <i class="fas fa-trash"></i>
                     </button>
                 </div>
@@ -381,13 +381,13 @@
                 const name = sessionStorage.getItem('userName') || 'Mi Cuenta';
                 menu.innerHTML = `
                     <div class="relative group">
-                        <button class="flex items-center space-x-2 bg-blue-600/20 hover:bg-blue-600/30 px-4 py-2 rounded-xl border border-blue-500/30 transition">
-                            <i class="fas fa-user-circle text-blue-500"></i>
-                            <span class="text-sm font-bold text-blue-400">${name}</span>
+                        <button class="flex items-center space-x-2 bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-xl border border-blue-200 transition">
+                            <i class="fas fa-user-circle text-blue-600"></i>
+                            <span class="text-sm font-bold text-blue-700">${name}</span>
                         </button>
-                        <div class="absolute right-0 mt-2 w-48 bg-slate-800 border border-slate-700 rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 overflow-hidden">
-                            <a href="index.html" class="block p-3 hover:bg-slate-700 text-sm transition border-b border-slate-700">Mi Panel</a>
-                            <button onclick="logout()" class="w-full text-left p-3 hover:bg-red-500/10 text-red-500 text-sm transition">Cerrar Sesión</button>
+                        <div class="absolute right-0 mt-2 w-48 bg-white border border-slate-200 rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 overflow-hidden">
+                            <a href="index.html" class="block p-3 hover:bg-slate-50 text-sm transition border-b border-slate-100 text-slate-700">Mi Panel</a>
+                            <button onclick="logout()" class="w-full text-left p-3 hover:bg-red-50 hover:text-red-600 text-red-500 text-sm transition">Cerrar Sesión</button>
                         </div>
                     </div>
                 `;
@@ -402,26 +402,28 @@
         document.addEventListener('DOMContentLoaded', loadStore);
     </script>
 
-    <footer class="mt-20 bg-slate-800 border-t border-slate-700 p-12">
-        <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-slate-400">
+    <footer class="mt-20 bg-white border-t border-slate-200 p-12">
+        <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-slate-500">
             <div>
-                <h4 class="text-white font-bold mb-4">MotoStock Pro 2026</h4>
+                <h4 class="text-slate-900 font-bold mb-4">MotoStock Pro 2026</h4>
                 <p class="text-sm">Tu aliado confiable para el mantenimiento de tu vehículo en Pucallpa.</p>
             </div>
             <div>
-                <h4 class="text-white font-bold mb-4">Contacto</h4>
-                <p class="text-sm"><i class="fas fa-map-marker-alt mr-2"></i> Av. Centenario 456, Pucallpa</p>
-                <p class="text-sm"><i class="fas fa-phone mr-2"></i> +51 987 654 321</p>
+                <h4 class="text-slate-900 font-bold mb-4">Contacto</h4>
+                <p class="text-sm"><i class="fas fa-map-marker-alt mr-2 text-blue-500"></i> Av. Centenario 456, Pucallpa</p>
+                <p class="text-sm"><i class="fas fa-phone mr-2 text-blue-500"></i> +51 987 654 321</p>
             </div>
             <div>
-                <h4 class="text-white font-bold mb-4">Síguenos</h4>
+                <h4 class="text-slate-900 font-bold mb-4">Síguenos</h4>
                 <div class="flex space-x-4">
-                    <a href="#" class="hover:text-white transition"><i class="fab fa-facebook text-xl"></i></a>
-                    <a href="#" class="hover:text-white transition"><i class="fab fa-instagram text-xl"></i></a>
-                    <a href="#" class="hover:text-white transition"><i class="fab fa-whatsapp text-xl"></i></a>
+                    <a href="#" class="hover:text-blue-500 transition"><i class="fab fa-facebook text-xl"></i></a>
+                    <a href="#" class="hover:text-blue-500 transition"><i class="fab fa-instagram text-xl"></i></a>
+                    <a href="#" class="hover:text-blue-500 transition"><i class="fab fa-whatsapp text-xl"></i></a>
                 </div>
             </div>
         </div>
     </footer>
 </body>
 </html>
+
+
